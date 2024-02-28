@@ -41,7 +41,7 @@ public class Main {
                   Deletes the database if present to start with an empty database.
                 --help, -h
                   Displays argument help and exits.
-                file
+                file 
                   Specifies a path from which to extract bigrams.
               """);
           return;
