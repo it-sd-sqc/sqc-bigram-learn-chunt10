@@ -64,14 +64,20 @@ class MainTest {
     // TODO: Create your test(s) below. /////////////////////////////////////////
 
     @Test
-    public void CreateBigrams() throws SQLException {
+    public void testCreateBigramsPunctuation() throws SQLException {
         Connection db = Main.createConnection();
         String src = "Hello, world!";
         createBigrams(db, src);
 
+        // Query for bigram "Hello" -> "world"
         Statement command = db.createStatement();
         ResultSet rows = command.executeQuery("SELECT * FROM bigrams WHERE words_id = (SELECT id FROM words WHERE string = 'Hello') AND next_words_id = (SELECT id FROM words WHERE string = 'world')");
 
-        assertFalse(rows.next()); // This will fail because "Hello," and "world!" are inserted into the database instead of "Hello" and "world"
+        // Assert that the bigram "Hello" -> "world" exists
+        assertTrue(rows.next(), "Expected bigram 'Hello' -> 'world' not found");
+
+        rows.close();
+        command.close();
+        db.close();
     }
 }
